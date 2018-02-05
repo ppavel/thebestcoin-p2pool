@@ -1,3 +1,5 @@
+Modified p2pool to run with TheBestCoin
+
 Requirements:
 -------------------------
 Generic:
@@ -26,7 +28,11 @@ configurations, using P2Pool should be as simple as:
     git submodule update
     sudo python setup.py install
     cd ../
-    python run_p2pool.py --net vertcoin
+    cd web-static
+    git submodule init
+    git submodule update
+    cd ../
+    python run_p2pool.py --net thebestcoin
 
 Then run your miner program, connecting to 127.0.0.1 on port 9171 with any
 username and password.

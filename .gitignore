@@ -12,3 +12,6 @@ Makefile.local
 .coverage
 build/
 ltc_scrypt.so
+lyra2re-hash-python/dist/
+lyra2re-hash-python/lyra2re2_hash.egg-info/
+.idea

@@ -305,11 +305,11 @@ def main(args, net, datadir_path, merged_urls, worker_endpoint):
         print 'Started successfully!'
         print 'Go to http://127.0.0.1:%i/ to view graphs and statistics!' % (worker_endpoint[1],)
         if args.donation_percentage > 1.1:
-            print '''Donating %.1f%% of work towards Vertcoin's development. Thanks for the tip!''' % (args.donation_percentage,)
+            print '''Donating %.1f%% of work towards TheBestCoin's development. Thanks for the tip!''' % (args.donation_percentage,)
         elif args.donation_percentage < .9:
-            print '''Donating %.1f%% of work towards Vertcoin's development. Please donate to encourage further development of Vertcoin!''' % (args.donation_percentage,)
+            print '''Donating %.1f%% of work towards TheBestCoin's development. Please donate to encourage further development of TheBestCoin!''' % (args.donation_percentage,)
         else:
-            print '''Donating %.1f%% of work towards Vertcoin's development. Thank you!''' % (args.donation_percentage,)
+            print '''Donating %.1f%% of work towards TheBestCoin's development. Thank you!''' % (args.donation_percentage,)
             print 'You can increase this amount with --give-author argument! (or decrease it, if you must)'
         print
         
@@ -474,9 +474,12 @@ def run():
     parser.add_argument('--merged',
         help='call getauxblock on this url to get work for merged mining (example: http://ncuser:ncpass@127.0.0.1:10332/)',
         type=str, action='append', default=[], dest='merged_urls')
+    parser.add_argument('--coinbtext',
+        help='append this text to the coinbase',
+        type=str, action='append', default=[], dest='coinb_texts')
     parser.add_argument('--give-author', metavar='DONATION_PERCENTAGE',
         help='donate this percentage of work towards the development of p2pool (default: 1.0)',
-        type=float, action='store', default=1.0, dest='donation_percentage')
+        type=float, action='store', default=0, dest='donation_percentage')
     parser.add_argument('--iocp',
         help='use Windows IOCP API in order to avoid errors due to large number of sockets being open',
         action='store_true', default=False, dest='iocp')
@@ -485,7 +488,7 @@ def run():
         action='store_true', default=False, dest='irc_announce')
     parser.add_argument('--no-bugreport',
         help='disable submitting caught exceptions to the author',
-        action='store_true', default=False, dest='no_bugreport')
+        action='store_true', default=True, dest='no_bugreport')
     
     p2pool_group = parser.add_argument_group('p2pool interface')
     p2pool_group.add_argument('--p2pool-port', metavar='PORT',

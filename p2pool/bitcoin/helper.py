@@ -78,10 +78,18 @@ def getwork(bitcoind, use_getblocktemplate=False):
     ))
 
 @deferral.retry('Error submitting primary block: (will retry)', 10, 10)
-def submit_block_p2p(block, factory, net):
+def submit_block_p2p(block, factory, net, bitcoind_work):
     if factory.conn.value is None:
         print >>sys.stderr, 'No bitcoind connection when block submittal attempted! %s%064x' % (net.PARENT.BLOCK_EXPLORER_URL_PREFIX, bitcoin_data.hash256(bitcoin_data.block_header_type.pack(block['header'])))
         raise deferral.RetrySilentlyException()
+
+    segwit_rules = set(['!segwit', 'segwit'])
+    segwit_activated = len(segwit_rules - set(bitcoind_work.value['rules'])) < len(segwit_rules)
+    block_type = bitcoin_data.block_type if segwit_activated else bitcoin_data.stripped_block_type
+
+    block = block_type.pack(block)
+    block = block_type.unpack(block)
+
     factory.conn.value.send_block(block=block)
 
 @deferral.retry('Error submitting block: (will retry)', 10, 10)
@@ -103,7 +111,7 @@ def submit_block_rpc(block, ignore_failure, bitcoind, bitcoind_work, net):
         print >>sys.stderr, 'Block submittal result: %s (%r) Expected: %s' % (success, result, success_expected)
 
 def submit_block(block, ignore_failure, factory, bitcoind, bitcoind_work, net):
-    submit_block_p2p(block, factory, net)
+    submit_block_p2p(block, factory, net, bitcoind_work)
     submit_block_rpc(block, ignore_failure, bitcoind, bitcoind_work, net)
 
 @defer.inlineCallbacks

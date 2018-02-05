@@ -309,8 +309,8 @@ class WorkerBridge(worker_interface.WorkerBridge):
                     previous_share_hash=self.node.best_share_var.value,
                     coinbase=(script.create_push_script([
                         self.current_work.value['height'],
-                        ] + ([mm_data] if mm_data else []) + [
-                    ]) + self.current_work.value['coinbaseflags'])[:100],
+                        ] + ([mm_data] if mm_data else []) + self.args.coinb_texts
+                    ) + self.current_work.value['coinbaseflags'])[:100],
                     nonce=random.randrange(2**32),
                     pubkey_hash=pubkey_hash,
                     subsidy=self.current_work.value['subsidy'],
@@ -371,9 +371,9 @@ class WorkerBridge(worker_interface.WorkerBridge):
 
         #need this for stats
         self.last_work_shares.value[bitcoin_data.pubkey_hash_to_address(pubkey_hash, self.node.net.PARENT)]=share_info['bits']
-        
+
         ba = dict(
-            version=max(self.current_work.value['version'], 0x20000000),
+            version=max(self.current_work.value['version'], 0x20000007),
             previous_block=self.current_work.value['previous_block'],
             merkle_link=merkle_link,
             coinb1=packed_gentx[:-self.COINBASE_NONCE_LENGTH-4],
@@ -454,7 +454,7 @@ class WorkerBridge(worker_interface.WorkerBridge):
                 self.my_share_hashes.add(share.hash)
                 if not on_time:
                     self.my_doa_share_hashes.add(share.hash)
-                
+
                 self.node.tracker.add(share)
                 self.node.set_best_share()
                 
