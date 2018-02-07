@@ -34,17 +34,17 @@ configurations, using P2Pool should be as simple as:
     cd ../
     python run_p2pool.py --net thebestcoin
 
-Then run your miner program, connecting to 127.0.0.1 on port 9171 with any
+Then run your miner program, connecting to 127.0.0.1 on port 38802 with any
 username and password.
 
 If you are behind a NAT, you should enable TCP port forwarding on your
-router. Forward port 9346 to the host running P2Pool.
+router. Forward port 38801 to the host running P2Pool.
 
 Run for additional options.
 
     python run_p2pool.py --help
 
-Donations towards further development:
+Donations towards further development (to original author of p2pool, not The Bestcoin):
 -------------------------
     1HNeqi3pJRNvXybNX4FKzZgYJsdTSqJTbk
 
