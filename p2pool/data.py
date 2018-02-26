@@ -63,7 +63,19 @@ def is_segwit_activated(version, net):
     segwit_activation_version = getattr(net, 'SEGWIT_ACTIVATION_VERSION', 0)
     return version >= segwit_activation_version and segwit_activation_version > 0
 
-DONATION_SCRIPT = '410418a74130b2f4fad899d8ed2bff272bc43a03c8ca72897ae3da584d7a770b5a9ea8dd1b37a620d27c6cf6d5a7a9bbd6872f5981e95816d701d94f201c5d093be6ac'.decode('hex')
+isTestnet = False
+
+for arg in sys.argv:
+    if (arg == '--testnet'):
+        isTestnet = True
+        break
+
+if not isTestnet:
+    # Multisig Address = 79g4GF4syzxMRbnFu7poQJ3mmWME4MjB1u, 7Cw2xWx2ho5txdBVXkkmTFXyELPQKFhbGL
+    DONATION_SCRIPT = '512102af6308bdcb298b88f68258e2968244dbefe002208d5cfe1b140186bd1378ec6a21037c710ed83b470e75c29627e1afd8fecdaeb67ec5ad0dd3cad2550c3aafd28e5652ae'.decode('hex')
+else:
+    # Multisig Address = bFJNTCotrBwNPXvfH8LAPvSjjTSvAApyXy, bHtbYYwcypJoaNm5gdDwKaaeByfHMk92sN
+    DONATION_SCRIPT = '512102808990144ec64e849aff5b7e5023d07b2656dc92f42879f665b8c8294f8240242102ed44cb5cc72ae9f7be12de9893d1aaf867827867eec9bb51ec33145f2c6872ae52ae'.decode('hex')
 
 class BaseShare(object):
     VERSION = 0
